@@ -32,11 +32,15 @@ app.get("/listings", async (req, res) => {
 
 //show Route to show details of a particular listing
 app.get("/listings/:id", async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id);
-    res.render("listings/show.ejs", { listing });
-})
+  let { id } = req.params;
+  const listing = await Listing.findById(id);
+  res.render("listings/show.ejs", { listing });
+});
 
+
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
 
 // app.get("/listings", async (req, res) => {
 //   let sampleListing = new Listing({
@@ -50,7 +54,3 @@ app.get("/listings/:id", async (req, res) => {
 //   console.log("Sample listing created");
 //   res.send("Sucessfull");
 // });
-
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
