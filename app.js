@@ -42,13 +42,6 @@ app.get("/listings/new", (req, res) => {
 });
 
 
-//show Route to show details of a particular listing
-app.get("/listings/:id", async (req, res) => {
-  let { id } = req.params;
-  const listing = await Listing.findById(id);
-  res.render("listings/show.ejs", { listing });
-});
-
 //Create Route to add new listing to the database
 app.post("/listings", async (req, res) => {
   const newListing = new Listing(req.body.listing);
@@ -61,6 +54,13 @@ app.get("/listings/:id/edit", async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
   res.render("listings/edit.ejs", { listing });
+});
+
+//show Route to show details of a particular listing
+app.get("/listings/:id", async (req, res) => {
+  let { id } = req.params;
+  const listing = await Listing.findById(id);
+  res.render("listings/show.ejs", { listing });
 });
 
 //Update Route to update a particular listing
@@ -83,15 +83,3 @@ app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
 
-// app.get("/listings", async (req, res) => {
-//   let sampleListing = new Listing({
-//     title: "Sample Listing",
-//     descrpition: "This is a sample listing description.",
-//     price: 100,
-//     location: "Sample Location",
-//     country: "Sample Country",
-//   });
-//   await sampleListing.save();
-//   console.log("Sample listing created");
-//   res.send("Sucessfull");
-// });
