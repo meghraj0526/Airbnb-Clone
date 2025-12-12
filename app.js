@@ -43,10 +43,15 @@ app.get("/listings/new", (req, res) => {
 
 
 //Create Route to add new listing to the database
-app.post("/listings", async (req, res) => {
-  const newListing = new Listing(req.body.listing);
-  await newListing.save();
-  res.redirect("/listings");
+app.post("/listings", async (req, res, next) => {
+  try{
+    const newListing = new Listing(req.body.listing);
+    await newListing.save();
+    res.redirect("/listings");
+  }
+  catch(err){
+    next(err);
+  }
 });
 
 //Edit Route to show form to edit a listing
@@ -66,8 +71,12 @@ app.get("/listings/:id", async (req, res) => {
 //Update Route to update a particular listing
 app.put("/listings/:id", async (req, res) => {
   let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, {...req.body.listing});
-  res.redirect(`/listings/${id}`); 
+  let updateData = {...req.body.listing};
+  if (updateData.image && typeof updateData.image === 'string') {
+    updateData.image = { url: updateData.image.trim(), filename: 'listingimage' };
+  }
+  await Listing.findByIdAndUpdate(id, updateData);
+  res.redirect(`/listings/${id}`);
 });
 
 //Delete Route to delete a particular listing
@@ -77,6 +86,10 @@ app.delete("/listings/:id", async (req, res) => {
   console.log(deletedlisting);
   res.redirect("/listings");
 });
+
+app.use((err, req, res, next) => {
+  res.send("something went wrong");
+})
 
 
 app.listen(3000, () => {
