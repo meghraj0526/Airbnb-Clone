@@ -26,7 +26,11 @@ module.exports.show = async (req, res) => {
 
 //Create Route to add new listing to the database
 module.exports.createListing = async (req, res, next) => {
+  let url = req.file.path;
+  let filename = req.file.filename;
+  const newListingImage = { url, filename };
   const newListing = new Listing(req.body.listing);
+  newListing.image = newListingImage;
   newListing.owner = req.user._id;
   await newListing.save();
   req.flash("success", "Created a new listing!");
