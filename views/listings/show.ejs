@@ -35,13 +35,14 @@
   </div>
   <% } %>
 
-  <!-- REVIEW FORM -->
-  <% if (listing.reviews.length > 0) { %>
+    <!-- REVIEW FORM
+    <% if (listing.reviews.length > 0) { %>
     <hr class="col-8 offset-3 mt-4 mb-4" />
-    <% } %>
+    <% } %> -->
 
-  <div class="col-8 offset-3">
     <% if(currentUser) { %>
+    <hr class="col-8 offset-3 mt-4 mb-4" />
+  <div class="col-8 offset-3">
     <h4>Leave a Review</h4>
     <form
       class="mb-3 needs-validation"
@@ -113,9 +114,8 @@
       </div>
       <button type="submit" class="btn btn-dark">Submit</button>
     </form>
-    <% } %> 
+    <% } %>
 
-    
     <!-- ALL REVIEWS    -->
     <% if (listing.reviews.length > 0) { %>
     <hr class="mt-4 mb-4" />
