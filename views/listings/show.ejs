@@ -35,6 +35,11 @@
   </div>
   <% } %>
 
+  <!-- REVIEW FORM -->
+  <% if (listing.reviews.length > 0) { %>
+    <hr class="col-8 offset-3 mt-4 mb-4" />
+    <% } %>
+
   <div class="col-8 offset-3">
     <% if(currentUser) { %>
     <h4>Leave a Review</h4>
@@ -108,12 +113,14 @@
       </div>
       <button type="submit" class="btn btn-dark">Submit</button>
     </form>
-    <% } %>
+    <% } %> 
 
+    
+    <!-- ALL REVIEWS    -->
+    <% if (listing.reviews.length > 0) { %>
     <hr class="mt-4 mb-4" />
-
-    <h6>All reviews</h6>
     <div class="row">
+      <h6>All reviews</h6>
       <% for(review of listing.reviews) { %>
       <div class="card col-5 mb-3 ms-3">
         <div class="card-body">
@@ -138,5 +145,6 @@
       </div>
       <% } %>
     </div>
+    <% } %>
   </div>
 </div>

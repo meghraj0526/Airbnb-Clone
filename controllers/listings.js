@@ -28,10 +28,10 @@ module.exports.show = async (req, res) => {
 module.exports.createListing = async (req, res, next) => {
   let url = req.file.path;
   let filename = req.file.filename;
-  const newListingImage = { url, filename };
+  
   const newListing = new Listing(req.body.listing);
-  newListing.image = newListingImage;
   newListing.owner = req.user._id;
+  newListing.image = { url, filename };
   await newListing.save();
   req.flash("success", "Created a new listing!");
   res.redirect("/listings");
@@ -45,7 +45,11 @@ module.exports.editForm = async (req, res) => {
     req.flash("error", "Cannot find that listing!");
     return res.redirect("/listings");
   }
-  res.render("listings/edit.ejs", { listing });
+
+  let originalImage = listing.image.url;
+  originalImage = originalImage.replace("/upload", "/upload/h_300,w_250");      
+
+  res.render("listings/edit.ejs", { listing, originalImage });
 };
 
 //Update Route to update a particular listing
@@ -59,7 +63,16 @@ module.exports.updateListing = async (req, res) => {
     };
   }
   let listing = await Listing.findById(id);
-  await Listing.findByIdAndUpdate(id, updateData);
+  let updatedListing = await Listing.findByIdAndUpdate(id, updateData);
+
+  if (typeof req.file !== "undefined") {
+  let url = req.file.path;
+  let filename = req.file.filename;
+  updatedListing.image = { url, filename };
+  await updatedListing.save();
+  }
+
+
   req.flash("success", "Updated the listing!");
   res.redirect(`/listings/${id}`);
 };
