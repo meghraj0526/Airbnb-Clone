@@ -35,13 +35,13 @@
   </div>
   <% } %>
 
-    <!-- REVIEW FORM
+  <!-- REVIEW FORM
     <% if (listing.reviews.length > 0) { %>
     <hr class="col-8 offset-3 mt-4 mb-4" />
     <% } %> -->
 
-    <% if(currentUser) { %>
-    <hr class="col-8 offset-3 mt-4 mb-4" />
+  <% if(currentUser) { %>
+  <!-- <hr class="col-8 offset-3 mt-4 mb-4" /> -->
   <div class="col-8 offset-3">
     <h4>Leave a Review</h4>
     <form
@@ -114,37 +114,41 @@
       </div>
       <button type="submit" class="btn btn-dark">Submit</button>
     </form>
+    <hr class="mt-4 mb-4" />
     <% } %>
 
     <!-- ALL REVIEWS    -->
-    <% if (listing.reviews.length > 0) { %>
-    <hr class="mt-4 mb-4" />
-    <div class="row">
-      <h6>All reviews</h6>
-      <% for(review of listing.reviews) { %>
-      <div class="card col-5 mb-3 ms-3">
-        <div class="card-body">
-          <h5 class="card-title mt-2"><%= review.author.username %></h5>
-          <p
-            class="starability-result card-text"
-            data-rating="<%= review.rating %>"
-          ></p>
-          <p class="card-text">
-            <strong>Comment:</strong> <%= review.comment %>
-          </p>
+    <% if (listing.reviews.length > 0) { %> <% if(!currentUser) { %>
+    <div class="col-8 offset-3">
+      <hr class="mt-4 mb-4" />
+      <% } %>
+      <div class="row">
+        <h4 class="mb-4">All reviews</h4>
+        <% for(review of listing.reviews) { %>
+        <div class="card col-5 mb-3 ms-3">
+          <div class="card-body">
+            <h5 class="card-title mt-2"><%= review.author.username %></h5>
+            <p
+              class="starability-result card-text"
+              data-rating="<%= review.rating %>"
+            ></p>
+            <p class="card-text">
+              <strong>Comment:</strong> <%= review.comment %>
+            </p>
+          </div>
+          <form
+            class="mb-2 mt-2"
+            method="post"
+            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+          >
+            <% if(currentUser) { %>
+            <button class="btn btn-sm btn-dark">Delete</button>
+            <% } %>
+          </form>
         </div>
-        <form
-          class="mb-2 mt-2"
-          method="post"
-          action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-        >
-          <% if(currentUser) { %>
-          <button class="btn btn-sm btn-dark">Delete</button>
-          <% } %>
-        </form>
+        <% } %>
       </div>
       <% } %>
     </div>
-    <% } %>
   </div>
 </div>

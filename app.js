@@ -60,11 +60,6 @@ const sessionOptions = {
 
 
 
-app.get("/", (req, res) => {
-  res.send("Go to /listings For Home Page");
-});
-
-
 
 app.use(session(sessionOptions));
 app.use(flash());
