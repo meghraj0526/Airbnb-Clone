@@ -7,7 +7,6 @@ module.exports.renderSignUpForm = (req, res) => {
 module.exports.signUp = async (req, res) => {
   try {
     let { username, email, password } = req.body;
-    // Here you would typically add code to save the user to your database
     const newUser = new User({ username, email });
     const registeredUser = await User.register(newUser, password);
     console.log(registeredUser);
