@@ -26,6 +26,6 @@
     setTimeout(() => {
       const bsAlert = new bootstrap.Alert(alert);
       bsAlert.close();
-    }, 5000);
+    }, 50000);
   });
 })();

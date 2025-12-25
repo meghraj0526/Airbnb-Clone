@@ -39,7 +39,7 @@
     <h4>Leave a Review</h4>
     <form
       class="mb-3 needs-validation"
-      action="/listings/<%= listing.id %>/reviews"
+      action="/listings/<%= listing._id %>/reviews"
       method="POST"
       novalidate
     >
@@ -134,7 +134,7 @@
             method="post"
             action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
           >
-            <% if(currentUser) { %>
+            <% if(currentUser && currentUser._id.equals(review.author._id)) { %>
             <button class="btn btn-sm btn-dark">Delete</button>
             <% } %>
           </form>
