@@ -10,9 +10,11 @@
       alt="listing_img"
     />
     <div class="card-body">
+      <% if (listing.owner) { %>
       <p class="card-text">
         Owned By: <b><i><%= listing.owner.username %></i></b>
       </p>
+      <% } %>
       <p class="card-text"><%= listing.description %></p>
       <p class="card-text"><%= listing.price.toLocaleString("en-IN") %></p>
       <p class="card-text"><%= listing.location %></p>
@@ -21,7 +23,7 @@
   </div>
   <br />
 
-  <% if(currentUser && currentUser._id.equals(listing.owner._id)) { %>
+  <% if(currentUser && listing.owner && currentUser._id.equals(listing.owner._id)) { %>
   <div class="btns">
     <a
       href="/listings/<%= listing._id %>/edit"
@@ -33,7 +35,8 @@
       <button class="btn btn-dark offset-5">Delete</button>
     </form>
   </div>
-  <% } %> <% if(currentUser) { %>
+  <% } %>
+  <% if(currentUser) { %>
   <hr class="col-8 offset-3 mt-4 mb-4" />
   <div class="col-8 offset-3">
     <h4>Leave a Review</h4>
@@ -120,7 +123,9 @@
         <% for(review of listing.reviews) { %>
         <div class="card col-5 mb-3 ms-3">
           <div class="card-body">
+            <% if (review.author) { %>
             <h5 class="card-title mt-2"><%= review.author.username %></h5>
+            <% } %>
             <p
               class="starability-result card-text"
               data-rating="<%= review.rating %>"
@@ -134,7 +139,7 @@
             method="post"
             action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
           >
-            <% if(currentUser && currentUser._id.equals(review.author._id)) { %>
+            <% if(currentUser && review.author && currentUser._id.equals(review.author._id)) { %>
             <button class="btn btn-sm btn-dark">Delete</button>
             <% } %>
           </form>
